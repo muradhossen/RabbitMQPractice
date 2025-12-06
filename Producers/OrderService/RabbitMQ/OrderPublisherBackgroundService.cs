@@ -21,7 +21,7 @@ public class OrderPublisherBackgroundService : BackgroundService
 
         while (!stoppingToken.IsCancellationRequested)
         {
-            await orderPublisher.PublishAsync($"Order created at {DateTime.UtcNow} -- {iterration}", stoppingToken);
+            await orderPublisher.PublishAsync($"Order created at {DateTime.UtcNow} -- NEW {iterration}", stoppingToken);
             
             iterration++;
             await Task.Delay(TimeSpan.FromSeconds(1), stoppingToken);
