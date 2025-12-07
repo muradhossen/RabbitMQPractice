@@ -31,5 +31,12 @@ app.MapGet("/scale-up", (ConsumerManagerService manager) =>
 })
 .WithName("ScaleUpConsumer");
 
+app.MapGet("/stop-all", (ConsumerManagerService manager) =>
+{
+    int newCount = manager.StartNewConsumer();
+    return Results.Ok(new { message = "New consumer thread started successfully.", totalConsumers = newCount });
+})
+.WithName("StopAllConsumer");
+
 app.Run();
 
