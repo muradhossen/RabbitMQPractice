@@ -13,6 +13,7 @@ builder.Services.AddSingleton(new RabbitMqConnection("localhost", 5672, userName
 builder.Services.AddSingleton<IConsumerWorker, ConsumerWorker>();
 builder.Services.AddSingleton<ConsumerManagerService>();
 
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())

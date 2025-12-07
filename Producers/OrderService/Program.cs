@@ -10,6 +10,8 @@ builder.Services.AddSingleton(new RabbitMqConnection("localhost", 5672, userName
 
 builder.Services.AddHostedService<OrderPublisherBackgroundService>();
 
+builder.Services.AddSingleton<SetupQueue>();
+
 var app = builder.Build(); 
 
 if (app.Environment.IsDevelopment())
