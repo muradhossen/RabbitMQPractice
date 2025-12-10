@@ -6,9 +6,9 @@ namespace OrderService.RabbitMQ;
 
 public class OrderPublisher
 {
-    private readonly RabbitMqConnection _factory;
+    private readonly IRabbitMqConnection _factory;
 
-    public OrderPublisher(RabbitMqConnection factory) => _factory = factory;
+    public OrderPublisher(IRabbitMqConnection factory) => _factory = factory;
 
     public async Task PublishAsync(string message, CancellationToken ct = default)
     {

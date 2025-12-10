@@ -6,7 +6,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSwaggerGen();
 
 
-builder.Services.AddSingleton(new RabbitMqConnection("localhost", 5672, userName: "admin", password: "admin123"));
+//builder.Services.AddSingleton(new RabbitMqConnection("localhost", 5672, userName: "admin", password: "admin123"));
+builder.Services.RegisterEventBusServices(builder.Configuration);
+
 
 builder.Services.AddHostedService<OrderPublisherBackgroundService>();
 
@@ -24,7 +26,7 @@ app.UseHttpsRedirection();
 
  
 
-app.MapGet("/order", async (RabbitMqConnection connection) =>
+app.MapGet("/order", async (IRabbitMqConnection connection) =>
 {
     OrderPublisher orderPublisher = new OrderPublisher(connection);
 

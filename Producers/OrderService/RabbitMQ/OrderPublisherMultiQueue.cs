@@ -8,9 +8,9 @@ namespace OrderService.RabbitMQ;
 
 public class OrderPublisherMultiQueue
 {
-    private readonly RabbitMqConnection _factory;
+    private readonly IRabbitMqConnection _factory;
 
-    public OrderPublisherMultiQueue(RabbitMqConnection factory) => _factory = factory;
+    public OrderPublisherMultiQueue(IRabbitMqConnection factory) => _factory = factory;
 
     public async Task PublishAsync<T>(Message<T> message, CancellationToken ct = default) where T : class
     {

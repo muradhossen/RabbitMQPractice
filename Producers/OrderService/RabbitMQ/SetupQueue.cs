@@ -5,9 +5,9 @@ namespace OrderService.RabbitMQ;
 
 public class SetupQueue
 {
-    private readonly RabbitMqConnection _factory;
+    private readonly IRabbitMqConnection _factory;
 
-    public SetupQueue(RabbitMqConnection factory) => _factory = factory;
+    public SetupQueue(IRabbitMqConnection factory) => _factory = factory;
     public async Task SetupRabbitMqAsync(CancellationToken token)
     {
         var connection = await _factory.CreateConnectionAsync(token);

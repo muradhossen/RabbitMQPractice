@@ -47,7 +47,7 @@ public class OrderPublisherBackgroundService : BackgroundService
     private async Task MultiQueue(CancellationToken stoppingToken)
     {
         using var scope = _serviceProvider.CreateScope();
-        var connection = scope.ServiceProvider.GetRequiredService<RabbitMqConnection>();
+        var connection = scope.ServiceProvider.GetRequiredService<IRabbitMqConnection>();
 
         OrderPublisherMultiQueue orderPublisher = new OrderPublisherMultiQueue(connection);
 

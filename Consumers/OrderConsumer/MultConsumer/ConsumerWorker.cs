@@ -7,19 +7,19 @@ namespace OrderConsumer.MultConsumer;
 
 public interface IConsumerWorker
 {
-    Task StartConsuming(CancellationToken cancellationToken);
+    Task StartConsuming(string queue, CancellationToken cancellationToken);
 }
 public class ConsumerWorker : IConsumerWorker
 {
-    private readonly RabbitMqConnection _factory;
+    private readonly IRabbitMqConnection _factory;
     //private readonly string _queueName = "order_queue";
     private readonly string _queueName = "order_queue_01";
     
     public string WorkerId { get; } = Guid.NewGuid().ToString("N")[..6];
 
-    public ConsumerWorker(RabbitMqConnection factory) => _factory = factory;
+    public ConsumerWorker(IRabbitMqConnection factory) => _factory = factory;
 
-    public async Task StartConsuming(CancellationToken cancellationToken)
+    public async Task StartConsuming(string queue,CancellationToken cancellationToken)
     {
         try
         {
@@ -47,12 +47,12 @@ public class ConsumerWorker : IConsumerWorker
                 {
                     Console.WriteLine($"Worker {WorkerId} failed: {ex.Message}");
                     // Nack logic
-                    await channel.BasicNackAsync(ea.DeliveryTag, multiple: false, requeue: false);
+                    //await channel.BasicNackAsync(ea.DeliveryTag, multiple: false, requeue: false);
                 }
             };
 
             // Start consuming and keep the task alive until cancellation
-            var consumerTag = await channel.BasicConsumeAsync(queue: _queueName, autoAck: false, consumer: consumer);
+            var consumerTag = await channel.BasicConsumeAsync(queue: queue, autoAck: false, consumer: consumer);
 
             // Keep the task running until cancelled (this is the key)
             await Task.Delay(Timeout.Infinite, cancellationToken);

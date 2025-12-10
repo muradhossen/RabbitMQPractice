@@ -2,7 +2,13 @@
 
 namespace EventBus;
 
-public class RabbitMqConnection
+public interface IRabbitMqConnection
+{
+    Task<IConnection> CreateConnectionAsync(CancellationToken token);
+}
+
+
+public class RabbitMqConnection : IRabbitMqConnection
 {
     private readonly ConnectionFactory _factory;
 
