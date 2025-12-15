@@ -87,9 +87,9 @@ public class OrderMultiPublisherService : IPublisherService
         var config = new QueueConfig { ExchangeName = "sharded_order_exchange", QueueName = "order_queue", NumberOfShards = 5 };
         await queue.SetupMultiQueue(config, stoppingToken);
 
-        await MultiQueue(config.ExchangeName, stoppingToken);
+        await ProduceAsync(config.ExchangeName, stoppingToken);
     }
-    private async Task MultiQueue(string exchange, CancellationToken stoppingToken = default)
+    private async Task ProduceAsync(string exchange, CancellationToken stoppingToken = default)
     {
         using var scope = _serviceProvider.CreateScope();
         var connection = scope.ServiceProvider.GetRequiredService<IRabbitMqConnection>();
