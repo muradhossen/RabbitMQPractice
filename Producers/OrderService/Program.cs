@@ -10,9 +10,11 @@ builder.Services.AddSwaggerGen();
 builder.Services.RegisterEventBusServices(builder.Configuration);
 
 
-builder.Services.AddHostedService<OrderPublisherBackgroundService>();
+builder.Services.AddHostedService<PublisherBackgroundService>();
 
 builder.Services.AddSingleton<SetupQueue>();
+
+builder.Services.AddScoped<PublisherFactory>();
 
 var app = builder.Build(); 
 
@@ -28,9 +30,9 @@ app.UseHttpsRedirection();
 
 app.MapGet("/order", async (IRabbitMqConnection connection) =>
 {
-    OrderPublisher orderPublisher = new OrderPublisher(connection);
+    SingleQueuePublisher orderPublisher = new SingleQueuePublisher(connection);
 
-    await orderPublisher.PublishAsync($"Order created at {DateTime.UtcNow}");
+    //await orderPublisher.PublishAsync();
 })
 .WithName("Order");
 

@@ -10,6 +10,7 @@ public class Order
     public decimal PriceTotal { get; set; } = 0;
     public int CustomerId { get; set; }
     public string Product { get; set; }
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 }
 
 
@@ -23,8 +24,9 @@ public class FakeOrderGenerator
             .RuleFor(o => o.Price, f => Math.Round(f.Finance.Amount(5.00m, 500.00m), 2)) 
             .RuleFor(o => o.PriceTotal, (f, o) => Math.Round(o.Price * 1.10m, 2)) 
             .RuleFor(o => o.CustomerId, f => f.PickRandom(validCustomerIds))
-            .RuleFor(o => o.Product, f => f.Commerce.ProductName());
+            .RuleFor(o => o.Product, f => f.Commerce.ProductName())
+            .RuleFor(o => o.CreatedAt, f => DateTime.UtcNow);
 
         return orderFaker.Generate(count);
-    }
+    } 
 }
